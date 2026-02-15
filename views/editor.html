@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Présentation - Backend Node.js</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        :root {
+            --primary: #0d6efd;
+            --dark: #212529;
+        }
+
+        body,
+        html {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .editor-panel {
+            height: calc(100vh - 56px);
+            overflow-y: auto;
+            background: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-panel {
+            height: calc(100vh - 56px);
+            background: #000;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide-item {
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: all 0.2s;
+            padding: 10px;
+        }
+
+        .slide-item:hover {
+            background: #e9ecef;
+            border-left-color: var(--primary);
+        }
+
+        .slide-item.active-slide {
+            background: #e7f1ff;
+            border-left-color: var(--primary);
+            font-weight: 600;
+        }
+
+        #preview-container {
+            flex-grow: 1;
+            background: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        input[type="color"] {
+            padding: 0;
+            height: 38px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-float-del {
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 10;
+        }
+
+        .slide-item:hover .btn-float-del {
+            opacity: 1;
+        }
+
+        .form-range {
+            height: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-dark bg-dark px-3 flex-nowrap">
+        <span class="navbar-brand h1 mb-0 me-2 text-truncate"><i class="fas fa-layer-group me-2"></i>Studio
+            Node.js</span>
+        <div class="d-flex align-items-center gap-2 bg-secondary bg-opacity-10 p-1 rounded me-auto"
+            style="border:1px solid #555;">
+            <select id="projectSelect" class="form-select form-select-sm" style="width: 200px;"></select>
+            <input type="text" id="projectFolderName" class="form-control form-control-sm" placeholder="Nom du projet"
+                value="Projet1">
+            <button class="btn btn-sm btn-primary" id="btnSaveProject" title="Enregistrer sur le serveur"><i
+                    class="fas fa-save"></i></button>
+        </div>
+        <div class="d-flex align-items-center gap-2 ms-2">
+            <button class="btn btn-sm btn-outline-light" id="btnViewPresentation"><i class="fas fa-play"></i> Voir la
+                présentation</button>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row h-100">
+            <div class="col-md-4 editor-panel">
+                <div class="accordion accordion-flush" id="editorAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#globalSettings">
+                                <i class="fas fa-sliders-h me-2"></i> Paramètres Globaux
+                            </button>
+                        </h2>
+                        <div id="globalSettings" class="accordion-collapse collapse show"
+                            data-bs-parent="#editorAccordion">
+                            <div class="accordion-body">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Musique de fond</label>
+                                    <input type="file" id="musicFile" class="form-control form-control-sm"
+                                        accept="audio/*">
+                                    <small class="text-muted d-block mt-1" id="musicFileName">Par défaut</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Durée par défaut (ms)</label>
+                                    <input type="number" class="form-control form-control-sm" id="defaultDuration"
+                                        value="50000">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#slidesListPanel">
+                                <i class="fas fa-images me-2"></i> Diapositives <span class="badge bg-primary ms-2"
+                                    id="slideCount">0</span>
+                            </button>
+                        </h2>
+                        <div id="slidesListPanel" class="accordion-collapse collapse show"
+                            data-bs-parent="#editorAccordion">
+                            <div class="accordion-body">
+                                <button class="btn btn-outline-primary w-100 mb-3" id="btnAddSlide"><i
+                                        class="fas fa-plus"></i> Nouvelle Slide</button>
+                                <div id="slidesList" class="list-group list-group-flush"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 preview-panel">
+                <div id="preview-container">
+                    <div id="preview-slider" class="carousel slide h-100 w-100" data-bs-ride="false">
+                        <div class="carousel-inner h-100" id="preview-inner"></div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#preview-slider"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#preview-slider"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="bottom-slides-bar" id="bottomSlidesBar">
+                    <div id="bottomSlidesList" class="d-flex"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL D'EDITION -->
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Éditer la Slide</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editIndex">
+
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <label class="form-label">Titre</label>
+                            <input type="text" class="form-control" id="inpTitle">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Taille Titre</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="range" class="form-range" id="inpTitleSize" min="1" max="6" step="0.1"
+                                    value="2.5">
+                                <small id="titleSizeVal">2.5rem</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <label class="form-label">Contenu</label>
+                            <textarea class="form-control" id="inpContent" rows="4"></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Taille Contenu</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="range" class="form-range" id="inpContentSize" min="0.8" max="3" step="0.1"
+                                    value="1.2">
+                                <small id="contentSizeVal">1.2rem</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Disposition</label>
+                            <select class="form-select" id="inpLayout">
+                                <option value="left">Texte Gauche / Image Droite</option>
+                                <option value="right">Texte Droite / Image Gauche</option>
+                                <option value="none">Texte Uniquement</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Image</label>
+                            <input type="file" class="form-control" id="inpImage" accept="image/*">
+                            <small class="text-muted" id="currentImageName"></small>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Alignement Titre</label>
+                            <select class="form-select" id="inpTitleAlign">
+                                <option value="flex-start">Gauche</option>
+                                <option value="center">Centre</option>
+                                <option value="flex-end">Droite</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Alignement Contenu</label>
+                            <select class="form-select" id="inpContentAlign">
+                                <option value="left">Gauche</option>
+                                <option value="center">Centre</option>
+                                <option value="right">Droite</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Couleur Fond</label>
+                            <input type="color" class="form-control" id="inpBgColor">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Couleur Texte</label>
+                            <input type="color" class="form-control" id="inpTextColor">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Durée (ms)</label>
+                            <input type="number" class="form-control" id="inpDuration">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="btnSaveSlide">Appliquer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let currentProject = {
+            settings: { musicPath: "", defaultDuration: 50000 },
+            slides: []
+        };
+        let editModal;
+
+        $(document).ready(function () {
+            editModal = new bootstrap.Modal($('#editModal')[0]);
+            loadProjects();
+
+            $('#btnAddSlide').on('click', addNewSlide);
+            $('#btnSaveProject').on('click', saveProjectToServer);
+            $('#btnSaveSlide').on('click', applySlideChanges);
+            $('#btnViewPresentation').on('click', () => {
+                const name = $('#projectFolderName').val();
+                window.open(`/presentation?project=${name}`, '_blank');
+            });
+
+            $('#inpTitleSize').on('input', function () { $('#titleSizeVal').text($(this).val() + 'rem'); });
+            $('#inpContentSize').on('input', function () { $('#contentSizeVal').text($(this).val() + 'rem'); });
+
+            $('#projectSelect').on('change', function () {
+                loadProject($(this).val());
+            });
+
+            $('#musicFile').on('change', async function () {
+                const file = this.files[0];
+                if (file) {
+                    const formData = new FormData();
+                    formData.append('projectName', $('#projectFolderName').val());
+                    formData.append('audio', file);
+
+                    const res = await $.ajax({
+                        url: '/api/upload',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false
+                    });
+                    currentProject.settings.musicPath = res.audioPath;
+                    $('#musicFileName').text(file.name);
+                }
+            });
+        });
+
+        async function loadProjects() {
+            const projects = await $.get('/api/projects');
+            const $select = $('#projectSelect');
+            $select.empty().append('<option value="" disabled selected>-- Charger Projet --</option>');
+            projects.forEach(p => { $select.append(`<option value="${p}">${p}</option>`); });
+        }
+
+        async function loadProject(name) {
+            try {
+                const data = await $.get(`/api/project/${name}`);
+                currentProject = data;
+                $('#projectFolderName').val(name);
+                $('#defaultDuration').val(data.settings.defaultDuration);
+                $('#musicFileName').text(data.settings.musicPath ? data.settings.musicPath.split('/').pop() : "Par défaut");
+                renderSlideList();
+                renderPreview();
+            } catch (e) { alert("Erreur lors du chargement"); }
+        }
+
+        async function saveProjectToServer() {
+            const name = $('#projectFolderName').val();
+            currentProject.settings.defaultDuration = $('#defaultDuration').val();
+            await $.ajax({
+                url: '/api/save',
+                type: 'POST',
+                data: JSON.stringify({ projectName: name, data: currentProject }),
+                contentType: 'application/json'
+            });
+            alert("Projet enregistré !");
+            loadProjects();
+        }
+
+        function addNewSlide() {
+            currentProject.slides.push({
+                title: "Titre Slide",
+                content: "Texte...",
+                layout: "left",
+                imagePath: "",
+                bgColor: "#ffffff",
+                textColor: "#000000",
+                titleSize: "2.5rem",
+                contentSize: "1.2rem",
+                titleAlign: "center",
+                contentAlign: "center",
+                duration: currentProject.settings.defaultDuration
+            });
+            renderSlideList();
+            renderPreview();
+            openEditModal(currentProject.slides.length - 1);
+        }
+
+        function renderSlideList() {
+            const $list = $('#slidesList');
+            $list.empty();
+            $('#slideCount').text(currentProject.slides.length);
+            currentProject.slides.forEach((slide, i) => {
+                const $item = $(`
+                    <div class="list-group-item slide-item d-flex justify-content-between align-items-center">
+                        <span>${i + 1}. ${slide.title}</span>
+                        <button class="btn btn-sm btn-link text-danger btn-del" data-index="${i}"><i class="fas fa-trash"></i></button>
+                    </div>
+                `);
+                $item.on('click', function (e) { if (!$(e.target).closest('.btn-del').length) openEditModal(i); });
+                $item.find('.btn-del').on('click', function () {
+                    currentProject.slides.splice(i, 1);
+                    renderSlideList();
+                    renderPreview();
+                });
+                $list.append($item);
+            });
+        }
+
+        function openEditModal(index) {
+            const slide = currentProject.slides[index];
+            $('#editIndex').val(index);
+            $('#inpTitle').val(slide.title);
+            $('#inpContent').val(slide.content);
+            $('#inpLayout').val(slide.layout);
+            $('#inpBgColor').val(slide.bgColor);
+            $('#inpTextColor').val(slide.textColor);
+            $('#inpDuration').val(slide.duration);
+
+            $('#inpTitleSize').val(parseFloat(slide.titleSize || '2.5'));
+            $('#titleSizeVal').text(slide.titleSize || '2.5rem');
+            $('#inpContentSize').val(parseFloat(slide.contentSize || '1.2'));
+            $('#contentSizeVal').text(slide.contentSize || '1.2rem');
+
+            $('#inpTitleAlign').val(slide.titleAlign || 'center');
+            $('#inpContentAlign').val(slide.contentAlign || 'center');
+
+            $('#currentImageName').text(slide.imagePath ? slide.imagePath.split('/').pop() : "");
+            editModal.show();
+        }
+
+        async function applySlideChanges() {
+            const idx = $('#editIndex').val();
+            const slide = currentProject.slides[idx];
+
+            slide.title = $('#inpTitle').val();
+            slide.content = $('#inpContent').val();
+            slide.layout = $('#inpLayout').val();
+            slide.bgColor = $('#inpBgColor').val();
+            slide.textColor = $('#inpTextColor').val();
+            slide.duration = $('#inpDuration').val();
+            slide.titleSize = $('#inpTitleSize').val() + 'rem';
+            slide.contentSize = $('#inpContentSize').val() + 'rem';
+            slide.titleAlign = $('#inpTitleAlign').val();
+            slide.contentAlign = $('#inpContentAlign').val();
+
+            const file = $('#inpImage')[0].files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('projectName', $('#projectFolderName').val());
+                formData.append('image', file);
+                const res = await $.ajax({ url: '/api/upload', type: 'POST', data: formData, processData: false, contentType: false });
+                slide.imagePath = res.imagePath;
+            }
+
+            editModal.hide();
+            renderSlideList();
+            renderPreview();
+        }
+
+        function renderPreview() {
+            const $inner = $('#preview-inner');
+            const $bottom = $('#bottomSlidesList');
+            $inner.empty();
+            $bottom.empty();
+
+            currentProject.slides.forEach((slide, i) => {
+                // Carousel item for central preview
+                const $item = $(`<div class="carousel-item h-100 ${i === 0 ? 'active' : ''}"></div>`);
+                const $wrap = $('<div class="d-flex w-100 h-100"></div>');
+                const paragraphs = slide.content.split('\n').filter(p => p.trim() !== '').map(p => `<p style="margin-bottom:1rem; font-size:${slide.contentSize}; line-height:1.6;">${p}</p>`).join('');
+                const $text = $(`
+                    <div class="p-5 flex-grow-1 d-flex flex-column justify-content-center" style="background:${slide.bgColor}; color:${slide.textColor}; text-align:${slide.contentAlign}; align-items:${slide.titleAlign}">
+                        <h1 style="font-size:${slide.titleSize}; font-weight:800; margin-bottom:1.5rem;">${slide.title}</h1>
+                        <div style="width:100%">${paragraphs}</div>
+                    </div>
+                `);
+
+                if (slide.layout !== 'none' && slide.imagePath) {
+                    let imgPath = slide.imagePath;
+                    if (imgPath && !imgPath.startsWith('/') && !imgPath.startsWith('http')) {
+                        imgPath = '/' + imgPath;
+                    }
+                    const $imgWrap = $(`<div class="w-50 h-100" style="background-image:url('${imgPath}'); background-size:cover; background-position:center;"></div>`);
+                    if (slide.layout === 'right') { $wrap.append($text).append($imgWrap); }
+                    else { $wrap.append($imgWrap).append($text); }
+                } else { $wrap.append($text); }
+                $item.append($wrap);
+                $inner.append($item);
+
+                // Thumbnail for bottom bar
+                const $thumb = $(`
+                    <div class="bottom-slide-thumb ${i === 0 ? 'active' : ''}" data-index="${i}">
+                        ${slide.imagePath ? `<img src="${slide.imagePath}">` : `<div style="width:100%;height:100%;background:${slide.bgColor}"></div>`}
+                        <div class="thumb-title">${i + 1}. ${slide.title}</div>
+                    </div>
+                `);
+                $thumb.on('click', () => {
+                    bootstrap.Carousel.getOrCreateInstance($('#preview-slider')[0]).to(i);
+                    $('.bottom-slide-thumb').removeClass('active');
+                    $thumb.addClass('active');
+                });
+                $bottom.append($thumb);
+            });
+
+            // Update active state on slide change
+            $('#preview-slider').on('slid.bs.carousel', function (e) {
+                $('.bottom-slide-thumb').removeClass('active');
+                $(`.bottom-slide-thumb[data-index="${e.to}"]`).addClass('active');
+
+                // Scroll bottom bar to active thumb
+                const $bar = $('#bottomSlidesBar');
+                const $active = $(`.bottom-slide-thumb[data-index="${e.to}"]`);
+                if ($active.length) {
+                    $bar.animate({ scrollLeft: $bar.scrollLeft() + $active.position().left - ($bar.width() / 2) + ($active.width() / 2) }, 200);
+                }
+            });
+        }
+    </script>
+</body>

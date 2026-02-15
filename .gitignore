@@ -1,0 +1,15 @@
+node_modules/
+dist/
+
+# Logs
+logs/
+
+# Cache
+.cache/
+
+# Environment
+.env
+
+# PKG
+*.exe
+*.exe~
