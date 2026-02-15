@@ -1,0 +1,362 @@
+{
+    "settings": {
+        "musicPath": "assets/musics/file.mp3",
+        "defaultDuration": 20000
+    },
+    "slides": [
+        {
+            "title": "Slide 01",
+            "text": "Contenu de présentation pour première diapositive. L'image est à droite",
+            "hasImage": true,
+            "imagePath": "assets/images/slide_1.jpg",
+            "alignSlide": "right",
+            "titleAlign": "center",
+            "contentAlign": "center"
+        },
+        {
+            "title": "Slide 02",
+            "text": "Contenu de présentation pour la deuxième diapositive. L'image est à droite.",
+            "hasImage": true,
+            "imagePath": "assets/images/slide_2.jpg",
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 03",
+            "text": "Contenu de présentation pour la troisième diapositive.",
+            "hasImage": true,
+            "imagePath": "assets/images/slide_3.jpg",
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 04",
+            "text": "Contenu de présentation pour la quatrième diapositive.",
+            "hasImage": true,
+            "imagePath": "assets/images/slide_4.jpg",
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 05",
+            "text": "Contenu de présentation pour la cinquième diapositive.",
+            "hasImage": true,
+            "imagePath": "assets/images/slide_5.jpg",
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 06",
+            "text": "Contenu de présentation pour la sixième diapositive.",
+            "hasImage": true,
+            "imagePath": "assets/images/slide_6.jpg",
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 07",
+            "text": "Contenu de présentation pour la septième diapositive.",
+            "hasImage": true,
+            "imagePath": "assets/images/slide_7.jpg",
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 08",
+            "text": "Contenu de présentation pour la huitième diapositive.",
+            "hasImage": true,
+            "imagePath": "assets/images/slide_8.jpg",
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 09",
+            "text": "Contenu de présentation pour la neuvième diapositive.",
+            "hasImage": true,
+            "imagePath": "assets/images/slide_9.jpg",
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 10",
+            "text": "Contenu de présentation pour la dixième diapositive.",
+            "hasImage": true,
+            "imagePath": "assets/images/10.jpg",
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 11",
+            "text": "Contenu de présentation pour la onzième diapositive.",
+            "hasImage": true,
+            "imagePath": "assets/images/11.jpg",
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 12",
+            "text": "Contenu de présentation pour la douzième diapositive.",
+            "hasImage": true,
+            "imagePath": "assets/images/12.jpg",
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 13",
+            "text": "Contenu de présentation pour la treizième diapositive.",
+            "hasImage": true,
+            "imagePath": "assets/images/13.jpg",
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 14",
+            "text": "Contenu de présentation pour la quatorzième diapositive.",
+            "hasImage": true,
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 15",
+            "text": "Contenu de présentation pour la quinzième diapositive.",
+            "hasImage": true,
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 16",
+            "text": "Contenu de présentation pour la seizième diapositive.",
+            "hasImage": true,
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 17",
+            "text": "Contenu de présentation pour la dix-septième diapositive.",
+            "hasImage": true,
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 18",
+            "text": "Contenu de présentation pour la dix-huitième diapositive.",
+            "hasImage": true,
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 19",
+            "text": "Contenu de présentation pour la dix-neuvième diapositive.",
+            "hasImage": true,
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 20",
+            "text": "Contenu de présentation pour la vingtième diapositive.",
+            "hasImage": true,
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 21",
+            "text": "Contenu de présentation pour la vingt-et-unième diapositive.",
+            "hasImage": true,
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 22",
+            "text": "Contenu de présentation pour la vingt-deuxième diapositive.",
+            "hasImage": true,
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 23",
+            "text": "Contenu de présentation pour la vingt-troisième diapositive.",
+            "hasImage": true,
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 24",
+            "text": "Contenu de présentation pour la vingt-quatrième diapositive.",
+            "hasImage": true,
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 25",
+            "text": "Contenu de présentation pour la vingt-cinquième diapositive.",
+            "hasImage": true,
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 26",
+            "text": "Contenu de présentation pour la vingt-sixième diapositive.",
+            "hasImage": true,
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 27",
+            "text": "Contenu de présentation pour la vingt-septième diapositive.",
+            "hasImage": true,
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 28",
+            "text": "Contenu de présentation pour la vingt-huitième diapositive.",
+            "hasImage": true,
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 29",
+            "text": "Contenu de présentation pour la vingt-neuvième diapositive.",
+            "hasImage": true,
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 30",
+            "text": "Contenu de présentation pour la trentième diapositive.",
+            "hasImage": true,
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 31",
+            "text": "Contenu de présentation pour la trente-et-unième diapositive.",
+            "hasImage": true,
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 32",
+            "text": "Contenu de présentation pour la trente-deuxième diapositive.",
+            "hasImage": true,
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 33",
+            "text": "Contenu de présentation pour la trente-troisième diapositive.",
+            "hasImage": true,
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 34",
+            "text": "Contenu de présentation pour la trente-quatrième diapositive.",
+            "hasImage": true,
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 35",
+            "text": "Contenu de présentation pour la trente-cinquième diapositive.",
+            "hasImage": true,
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 36",
+            "text": "Contenu de présentation pour la trente-sixième diapositive.",
+            "hasImage": true,
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 37",
+            "text": "Contenu de présentation pour la trente-septième diapositive.",
+            "hasImage": true,
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 38",
+            "text": "Contenu de présentation pour la trente-huitième diapositive.",
+            "hasImage": true,
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 39",
+            "text": "Contenu de présentation pour la trente-neuvième diapositive.",
+            "hasImage": true,
+            "alignSlide": "right"
+
+        },
+        {
+            "title": "Slide 40",
+            "text": "Contenu de présentation pour la quarantième diapositive.",
+            "hasImage": true,
+            "alignSlide": "left"
+
+        },
+        {
+            "title": "Slide 41",
+            "text": "Désormais, il n'y a plus d'images. Le texte prend 100% de la largeur.",
+            "hasImage": false,
+            "alignSlide": "center"
+        },
+        {
+            "title": "Slide 42",
+            "text": "Section texte uniquement. Idéal pour les conclusions ou les citations.",
+            "hasImage": false,
+            "alignSlide": "center"
+        },
+        {
+            "title": "Slide 43",
+            "text": "Ceci est un autre exemple de texte plein écran centré.",
+            "hasImage": false,
+            "alignSlide": "center"
+        },
+        {
+            "title": "Slide 44",
+            "text": "Le texte est parfaitement centré verticalement et horizontalement.",
+            "hasImage": false,
+            "alignSlide": "center"
+        },
+        {
+            "title": "Slide 45",
+            "text": "Vous pouvez mettre des messages importants ici.",
+            "hasImage": false,
+            "alignSlide": "center"
+        },
+        {
+            "title": "Slide 46",
+            "text": "Continuons avec un contenu textuel pur.",
+            "hasImage": false,
+            "alignSlide": "center"
+        },
+        {
+            "title": "Slide 47",
+            "text": "Transition sans image pour changer le rythme.",
+            "hasImage": false,
+            "alignSlide": "center"
+        },
+        {
+            "title": "Slide 48",
+            "text": "Encore une slide texte simple.",
+            "hasImage": false,
+            "alignSlide": "center"
+        },
+        {
+            "title": "Slide 49",
+            "text": "Presque à la fin de la présentation.",
+            "hasImage": false,
+            "alignSlide": "center"
+        },
+        {
+            "title": "Slide 50",
+            "text": "Merci de votre attention. Fin de la présentation.",
+            "hasImage": false,
+            "alignSlide": "center"
+        }
+    ]
+}
