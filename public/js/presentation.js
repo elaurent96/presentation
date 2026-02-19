@@ -1,6 +1,9 @@
 let dataConfig = null;
 let carouselInstance = null;
 let slideTimer = null;
+let playlistMode = false;
+let allProjects = [];
+let currentProjectIndex = 0;
 
 const $dom = {
     slidesContainer: $('#slides-container'),
@@ -15,14 +18,23 @@ $(document).ready(async function () {
     try {
         const urlParams = new URLSearchParams(window.location.search);
         const projectParam = urlParams.get('project');
+        playlistMode = projectParam === 'all';
 
-        if (!projectParam) {
+        if (playlistMode) {
+            const projects = await $.getJSON('/api/all');
+            if (projects.length === 0) {
+                throw new Error("Aucun projet trouvé.");
+            }
+            allProjects = projects;
+            dataConfig = allProjects[0].data;
+            startPresentationFlow(true);
+        } else if (!projectParam) {
             throw new Error("Paramètre 'project' manquant.");
+        } else {
+            const data = await $.getJSON(`/api/project/${projectParam}`);
+            dataConfig = data;
+            startPresentationFlow(false);
         }
-
-        const data = await $.getJSON(`/api/project/${projectParam}`);
-        dataConfig = data;
-        startPresentationFlow();
 
     } catch (error) {
         $dom.overlay.css('cursor', 'default');
@@ -39,13 +51,14 @@ $(document).ready(async function () {
     }
 });
 
-function startPresentationFlow() {
+function startPresentationFlow(isPlaylist = false) {
     buildSlider();
-    let musicPath = dataConfig.settings.musicPath;
-    if (musicPath && !musicPath.startsWith('/') && !musicPath.startsWith('http')) {
-        musicPath = '/' + musicPath;
+    
+    if (isPlaylist && allProjects.length > 0) {
+        addProjectIndicator(allProjects[currentProjectIndex].name, allProjects.length, currentProjectIndex + 1);
     }
-    $dom.audio.src = musicPath;
+    
+    setMusic(dataConfig.settings.musicPath);
     $dom.audio.volume = 0.5;
 
     $dom.$audio.on('error', () => { });
@@ -56,8 +69,94 @@ function startPresentationFlow() {
     $('#btn-mute').on('click', toggleMute);
 
     $('#main-slider').on('slid.bs.carousel', function (e) {
-        resetTimer(e.to);
+        const totalSlides = $dom.slidesContainer.children().length;
+        if (playlistMode && e.to === totalSlides - 1) {
+            if (slideTimer) clearTimeout(slideTimer);
+            
+            currentProjectIndex++;
+            if (currentProjectIndex >= allProjects.length) {
+                currentProjectIndex = 0;
+            }
+            
+            dataConfig = allProjects[currentProjectIndex].data;
+            updateProjectIndicator();
+            setMusic(dataConfig.settings.musicPath);
+            buildSlider();
+            
+            carouselInstance.to(0);
+            resetTimer(0);
+            
+            $dom.audio.play().catch(e => {});
+        } else {
+            resetTimer(e.to);
+        }
     });
+}
+
+function setMusic(musicPath) {
+    if (musicPath && !musicPath.startsWith('/') && !musicPath.startsWith('http')) {
+        musicPath = '/' + musicPath;
+    }
+    $dom.audio.src = musicPath || '';
+    $dom.audio.load();
+}
+
+function addProjectIndicator(name, total, current) {
+    $('#project-indicator').remove();
+    const indicator = $('<div>').attr('id', 'project-indicator').css({
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        color: 'white',
+        padding: '10px 20px',
+        borderRadius: '25px',
+        fontSize: '14px',
+        zIndex: '9999',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        opacity: 0,
+        transition: 'opacity 0.5s ease'
+    }).html(`
+        <i class="fas fa-folder-open"></i>
+        <span><strong>${name}</strong></span>
+        <span class="text-muted">(${current}/${total})</span>
+    `);
+    $('body').append(indicator);
+    
+    setTimeout(() => {
+        indicator.css('opacity', '1');
+        setTimeout(() => {
+            indicator.css('opacity', '0');
+            setTimeout(() => indicator.remove(), 500);
+        }, 2000);
+    }, 100);
+}
+
+function updateProjectIndicator() {
+    addProjectIndicator(allProjects[currentProjectIndex].name, allProjects.length, currentProjectIndex + 1);
+}
+
+function handleProjectTransition() {
+    if (!playlistMode) return;
+    
+    if (slideTimer) clearTimeout(slideTimer);
+    
+    currentProjectIndex++;
+    if (currentProjectIndex >= allProjects.length) {
+        currentProjectIndex = 0;
+    }
+    
+    dataConfig = allProjects[currentProjectIndex].data;
+    updateProjectIndicator();
+    setMusic(dataConfig.settings.musicPath);
+    buildSlider();
+    
+    carouselInstance.to(0);
+    resetTimer(0);
+    
+    $dom.audio.play().catch(e => {});
 }
 
 function buildSlider() {

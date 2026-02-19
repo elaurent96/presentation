@@ -135,8 +135,10 @@
             <div class="vr mx-2 text-white"></div>
             <button class="btn btn-sm btn-success fw-bold" onclick="exportJSON()"><i class="fas fa-file-download"></i>
                 TÉLÉCHARGER data.json</button>
-            <button class="btn btn-sm btn-primary" onclick="viewFinalProject()"><i class="fas fa-play"></i> Voir
+<button class="btn btn-sm btn-primary" onclick="viewFinalProject()"><i class="fas fa-play"></i> Voir
                 Final</button>
+            <button class="btn btn-sm btn-warning" onclick="viewAllProjects()"><i class="fas fa-list"></i> Voir toutes les
+                présentations</button>
         </div>
     </nav>
 
@@ -707,9 +709,23 @@
             previewCarousel = new bootstrap.Carousel(sliderEl, { interval: false });
         }
 
-        function viewFinalProject() {
+function viewFinalProject() {
             if (currentProject.slides.length === 0) { alert("Projet vide."); return; }
             window.open('index.html', '_blank');
+        }
+
+        async function viewAllProjects() {
+            try {
+                const projects = await $.getJSON('/api/all');
+                if (projects.length === 0) {
+                    alert("Aucun projet trouvé dans /public/assets/");
+                    return;
+                }
+                window.open('/presentation?project=all', '_blank');
+            } catch (error) {
+                console.error("Erreur lors du chargement des projets:", error);
+                alert("Erreur lors du chargement des projets.");
+            }
         }
     </script>
 </body>

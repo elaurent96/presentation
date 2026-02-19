@@ -104,6 +104,8 @@
         <div class="d-flex align-items-center gap-2 ms-2">
             <button class="btn btn-sm btn-outline-light" id="btnViewPresentation"><i class="fas fa-play"></i> Voir la
                 présentation</button>
+            <button class="btn btn-sm btn-outline-light" id="btnViewAll"><i class="fas fa-tv"></i> Tous les
+                projets</button>
         </div>
     </nav>
 
@@ -294,6 +296,10 @@
             $('#btnViewPresentation').on('click', () => {
                 const name = $('#projectFolderName').val();
                 window.open(`/presentation?project=${name}`, '_blank');
+            });
+
+            $('#btnViewAll').on('click', () => {
+                window.open('/presentation?project=all', '_blank');
             });
 
             $('#inpTitleSize').on('input', function () { $('#titleSizeVal').text($(this).val() + 'rem'); });

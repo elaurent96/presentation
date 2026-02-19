@@ -39,6 +39,10 @@ app.get('/presentation', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'presentation.html'));
 });
 
+app.get('/presentation.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'presentation.html'));
+});
+
 app.get('/api/projects', async (req, res) => {
     const assetsDir = path.join(process.cwd(), 'public', 'assets');
     await fs.ensureDir(assetsDir);
@@ -52,7 +56,43 @@ app.get('/api/projects', async (req, res) => {
     res.json(projectFolders);
 });
 
+app.get('/api/all', async (req, res) => {
+    const assetsDir = path.join(process.cwd(), 'public', 'assets');
+    await fs.ensureDir(assetsDir);
+    const folders = await fs.readdir(assetsDir);
+    const projectsData = [];
+    
+    for (const f of folders) {
+        const projectPath = path.join(assetsDir, f);
+        if (fs.lstatSync(projectPath).isDirectory()) {
+            const dataFile = path.join(projectPath, 'data.json');
+            if (await fs.pathExists(dataFile)) {
+                try {
+                    const data = await fs.readJson(dataFile);
+                    projectsData.push({
+                        name: f,
+                        data: data
+                    });
+                } catch (e) {
+                    console.error(`Error reading project ${f}:`, e);
+                }
+            }
+        }
+    }
+    res.json(projectsData);
+});
+
 app.get('/api/project/:name', async (req, res) => {
+    console.log('API project called:', req.params.name);
+    const filePath = path.join(process.cwd(), 'public', 'assets', req.params.name, 'data.json');
+    if (await fs.pathExists(filePath)) {
+        res.json(await fs.readJson(filePath));
+    } else {
+        res.status(404).json({ error: 'Project not found' });
+    }
+});
+
+app.get('/api/:name', async (req, res) => {
     const filePath = path.join(process.cwd(), 'public', 'assets', req.params.name, 'data.json');
     if (await fs.pathExists(filePath)) {
         res.json(await fs.readJson(filePath));
