@@ -23,6 +23,17 @@
             font-family: 'Montserrat', sans-serif;
         }
 
+        .preview-panel {
+            height: calc(100vh - 56px);
+            background: #000;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex: 1;
+            min-width: 0;
+        }
+
         .editor-panel {
             height: calc(100vh - 56px);
             overflow-y: auto;
@@ -30,14 +41,12 @@
             border-right: 1px solid #dee2e6;
             display: flex;
             flex-direction: column;
+            min-width: 0;
         }
 
-        .preview-panel {
-            height: calc(100vh - 56px);
-            background: #000;
-            position: relative;
-            display: flex;
-            flex-direction: column;
+        #preview-container {
+            flex: 1;
+            overflow: hidden;
         }
 
         .slide-item {
@@ -85,6 +94,47 @@
         .form-range {
             height: 1.5rem;
         }
+
+        .row.h-100 {
+            display: flex;
+            flex-wrap: nowrap;
+            margin: 0;
+            width: 100%;
+        }
+
+        .resizer {
+            width: 6px;
+            background: #dee2e6;
+            cursor: col-resize;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .editor-panel {
+                width: 100% !important;
+                position: absolute;
+                z-index: 100;
+                background: #f8f9fa;
+            }
+            
+            .preview-panel {
+                width: 100% !important;
+            }
+            
+            .resizer {
+                display: none;
+            }
+            
+            #btnToggleSidebar {
+                display: block !important;
+            }
+        }
+
+        #btnToggleSidebar {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 
@@ -93,6 +143,9 @@
     <nav class="navbar navbar-dark bg-dark px-3 flex-nowrap">
         <span class="navbar-brand h1 mb-0 me-2 text-truncate"><i class="fas fa-layer-group me-2"></i>Studio
             Node.js</span>
+        <button class="btn btn-outline-light btn-sm me-2" id="btnToggleSidebar" title="Afficher/Masquer le panneau">
+            <i class="fas fa-chevron-left" id="sidebarIcon"></i>
+        </button>
         <div class="d-flex align-items-center gap-2 bg-secondary bg-opacity-10 p-1 rounded me-auto"
             style="border:1px solid #555;">
             <select id="projectSelect" class="form-select form-select-sm" style="width: 200px;"></select>
@@ -109,9 +162,9 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
-        <div class="row h-100">
-            <div class="col-md-4 editor-panel">
+    <div class="container-fluid p-0">
+        <div class="row h-100 g-0">
+            <div class="editor-panel" id="editorPanel" style="width: 33%;">
                 <div class="accordion accordion-flush" id="editorAccordion">
                     <div class="accordion-item">
                         <h2 class="accordion-header">
@@ -158,7 +211,8 @@
                 </div>
             </div>
 
-            <div class="col-md-8 preview-panel">
+            <div class="resizer" id="resizer"></div>
+            <div class="preview-panel" id="previewPanel">
                 <div id="preview-container">
                     <div id="preview-slider" class="carousel slide h-100 w-100" data-bs-ride="false">
                         <div class="carousel-inner h-100" id="preview-inner"></div>
@@ -226,8 +280,8 @@
                         <div class="col-md-6">
                             <label class="form-label">Disposition</label>
                             <select class="form-select" id="inpLayout">
-                                <option value="left">Texte Gauche / Image Droite</option>
-                                <option value="right">Texte Droite / Image Gauche</option>
+                                <option value="right">Texte Gauche / Image Droite</option>
+                                <option value="left">Texte Droite / Image Gauche</option>
                                 <option value="none">Texte Uniquement</option>
                             </select>
                         </div>
@@ -302,6 +356,25 @@
                 window.open('/presentation?project=all', '_blank');
             });
 
+            $('#btnToggleSidebar').on('click', () => {
+                const $editor = $('#editorPanel');
+                const $resizer = $('#resizer');
+                const $preview = $('#previewPanel');
+                const $icon = $('#sidebarIcon');
+                
+                if ($editor.is(':hidden')) {
+                    $editor.show();
+                    $resizer.show();
+                    $preview.css('width', 'calc(100% - ' + $editor.width() + 'px - 6px)');
+                    $icon.removeClass('fa-chevron-right').addClass('fa-chevron-left');
+                } else {
+                    $editor.hide();
+                    $resizer.hide();
+                    $preview.css('width', '100%');
+                    $icon.removeClass('fa-chevron-left').addClass('fa-chevron-right');
+                }
+            });
+
             $('#inpTitleSize').on('input', function () { $('#titleSizeVal').text($(this).val() + 'rem'); });
             $('#inpContentSize').on('input', function () { $('#contentSizeVal').text($(this).val() + 'rem'); });
 
@@ -326,6 +399,39 @@
                     currentProject.settings.musicPath = res.audioPath;
                     $('#musicFileName').text(file.name);
                 }
+            });
+
+            const resizer = document.getElementById('resizer');
+            const editorPanel = document.getElementById('editorPanel');
+            const container = document.querySelector('.container-fluid');
+
+            let isResizing = false;
+
+            resizer.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isResizing) return;
+                
+                const containerRect = container.getBoundingClientRect();
+                let newWidth = e.clientX - containerRect.left;
+                const minWidth = 200;
+                const maxWidth = containerRect.width - 200;
+
+                if (newWidth < minWidth) newWidth = minWidth;
+                if (newWidth > maxWidth) newWidth = maxWidth;
+
+                const percentage = (newWidth / containerRect.width) * 100;
+                editorPanel.style.width = percentage + '%';
+            });
+
+            document.addEventListener('mouseup', () => {
+                isResizing = false;
+                document.body.style.cursor = '';
+                document.body.style.userSelect = '';
             });
         });
 
@@ -476,7 +582,7 @@
                         imgPath = '/' + imgPath;
                     }
                     const $imgWrap = $(`<div class="w-50 h-100" style="background-image:url('${imgPath}'); background-size:cover; background-position:center;"></div>`);
-                    if (slide.layout === 'right') { $wrap.append($text).append($imgWrap); }
+                    if (slide.layout === 'left') { $wrap.append($text).append($imgWrap); }
                     else { $wrap.append($imgWrap).append($text); }
                 } else { $wrap.append($text); }
                 $item.append($wrap);

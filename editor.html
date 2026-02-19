@@ -105,6 +105,18 @@
             font-weight: bold;
             border: 2px solid var(--primary);
         }
+
+        .resizer {
+            width: 6px;
+            background: #dee2e6;
+            cursor: col-resize;
+            position: relative;
+            z-index: 10;
+        }
+
+        .resizer:hover, .resizer:active {
+            background: var(--primary);
+        }
     </style>
 </head>
 
@@ -145,7 +157,8 @@
     <div class="container-fluid">
         <div class="row h-100">
             <!-- GAUCHE : CONTROLES -->
-            <div class="col-md-4 editor-panel">
+            <div class="editor-panel" id="editorPanel" style="width: 33%;">
+                <div class="accordion accordion-flush" id="editorAccordion">
                 <div class="accordion accordion-flush" id="editorAccordion">
                     <!-- 1. Global Settings -->
                     <div class="accordion-item">
@@ -197,8 +210,11 @@
                 </div>
             </div>
 
+            <!-- RESIZER -->
+            <div class="resizer" id="resizer"></div>
+
             <!-- DROITE : PREVIEW -->
-            <div class="col-md-8 preview-panel">
+            <div class="preview-panel" id="previewPanel">
                 <div class="p-2 text-center bg-secondary text-white small">
                     <i class="fas fa-eye"></i> PRÉVISUALISATION EN TEMPS RÉEL
                 </div>
@@ -375,6 +391,40 @@
                     currentProject.settings.musicPath = this.files[0].name;
                     document.getElementById('musicFileName').innerText = this.files[0].name;
                 }
+            });
+
+            const resizer = document.getElementById('resizer');
+            const editorPanel = document.getElementById('editorPanel');
+            const previewPanel = document.getElementById('previewPanel');
+            const container = document.querySelector('.container-fluid');
+
+            let isResizing = false;
+
+            resizer.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isResizing) return;
+                
+                const containerRect = container.getBoundingClientRect();
+                let newWidth = e.clientX - containerRect.left;
+                const minWidth = 200;
+                const maxWidth = containerRect.width - 200;
+
+                if (newWidth < minWidth) newWidth = minWidth;
+                if (newWidth > maxWidth) newWidth = maxWidth;
+
+                const percentage = (newWidth / containerRect.width) * 100;
+                editorPanel.style.width = percentage + '%';
+            });
+
+            document.addEventListener('mouseup', () => {
+                isResizing = false;
+                document.body.style.cursor = '';
+                document.body.style.userSelect = '';
             });
         }
 
