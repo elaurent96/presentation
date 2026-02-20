@@ -1,0 +1,60 @@
+{
+    "settings": {
+        "musicPath": "\/assets\/user_1\/NouveauProjet\/music\/1771617605-Only Time - Enya (Lyrics) [4xpbB7G1nws] (1).mp3",
+        "defaultDuration": "500"
+    },
+    "slides": [
+        {
+            "title": "Titre Slide",
+            "content": "Texte...",
+            "layout": "right",
+            "imagePath": "assets\/user_1\/NouveauProjet\/images\/1771612754-Gemini_Generated_Image_ih9i43ih9i43ih9i.png",
+            "bgColor": "#ffffff",
+            "textColor": "#000000",
+            "titleSize": "2.5rem",
+            "contentSize": "1.2rem",
+            "titleAlign": "flex-start",
+            "contentAlign": "left",
+            "duration": "500"
+        },
+        {
+            "title": "Titre Slide",
+            "content": "Texte...",
+            "layout": "left",
+            "imagePath": "assets\/user_1\/NouveauProjet\/images\/1771613123-Gemini_Generated_Image_ih9i43ih9i43ih9i.png",
+            "bgColor": "#ffffff",
+            "textColor": "#000000",
+            "titleSize": "2.5rem",
+            "contentSize": "1.2rem",
+            "titleAlign": "center",
+            "contentAlign": "center",
+            "duration": "500"
+        },
+        {
+            "title": "Titre Slide",
+            "content": "Texte...",
+            "layout": "left",
+            "imagePath": null,
+            "bgColor": "#ffffff",
+            "textColor": "#000000",
+            "titleSize": "2.5rem",
+            "contentSize": "1.2rem",
+            "titleAlign": "center",
+            "contentAlign": "center",
+            "duration": "500"
+        },
+        {
+            "title": "Titre Slide",
+            "content": "Texte...",
+            "layout": "right",
+            "imagePath": "\/assets\/user_1\/NouveauProjet\/images\/1771615546-output.gif",
+            "bgColor": "#ffffff",
+            "textColor": "#000000",
+            "titleSize": "2.5rem",
+            "contentSize": "1.2rem",
+            "titleAlign": "flex-start",
+            "contentAlign": "left",
+            "duration": "500"
+        }
+    ]
+}

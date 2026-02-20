@@ -1,0 +1,34 @@
+{
+    "settings": {
+        "musicPath": "\/assets\/user_1\/presentationI\/music\/1771617649-Enya - Caribbean Blue (Official 4K Music Video) [Jl8iYAo90pE].mp3",
+        "defaultDuration": "5000"
+    },
+    "slides": [
+        {
+            "title": "Titre Slide",
+            "content": "Texte...",
+            "layout": "left",
+            "imagePath": null,
+            "bgColor": "#ffffff",
+            "textColor": "#000000",
+            "titleSize": "2.5rem",
+            "contentSize": "1.2rem",
+            "titleAlign": "center",
+            "contentAlign": "center",
+            "duration": "5000"
+        },
+        {
+            "title": "Titre Slide",
+            "content": "Texte...",
+            "layout": "left",
+            "imagePath": null,
+            "bgColor": "#ffffff",
+            "textColor": "#000000",
+            "titleSize": "2.5rem",
+            "contentSize": "1.2rem",
+            "titleAlign": "center",
+            "contentAlign": "center",
+            "duration": "5000"
+        }
+    ]
+}
