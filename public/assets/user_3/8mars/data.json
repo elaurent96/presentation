@@ -1,0 +1,141 @@
+{
+    "settings": {
+        "musicPath": "\/assets\/user_3\/8mars\/music\/1771855599-Only Time - Enya (Lyrics) [4xpbB7G1nws] (1).mp3",
+        "defaultDuration": "50000",
+        "fontFamily": "'Montserrat', sans-serif"
+    },
+    "slides": [
+        {
+            "title": "Journ\u00e9e de la Femme",
+            "content": "Bienvenue \u00e0 tous pour cette c\u00e9l\u00e9bration vibrante de la Journ\u00e9e internationale des femmes le 8 mars ! En Ha\u00efti et dans le monde, nous honorons les combats acharn\u00e9s pour l'\u00e9galit\u00e9, la justice et la dignit\u00e9.\n\nCes femmes, m\u00e8res, leaders et guerri\u00e8res, ont pav\u00e9 la voie contre vents et mar\u00e9es. Ensemble, r\u00e9affirmons notre engagement pour un avenir o\u00f9 chaque voix f\u00e9minine r\u00e9sonne librement.\n\nPr\u00eats \u00e0 plonger dans l'histoire, les citations inspirantes et les appels \u00e0 l'action ?",
+            "layout": "left",
+            "imagePath": null,
+            "bgColor": "#965454",
+            "textColor": "#ffffff",
+            "titleSize": "4.5rem",
+            "contentSize": "1.5rem",
+            "titleAlign": "center",
+            "contentAlign": "left",
+            "duration": "50000",
+            "titleFont": "'Montserrat', sans-serif",
+            "contentFont": "'Montserrat', sans-serif"
+        },
+        {
+            "title": "Qu'est-ce que le 8 mars ?",
+            "content": "Le 8 mars est la Journ\u00e9e mondiale des femmes, proclam\u00e9e par les Nations Unies en 1975 pour promouvoir l'\u00e9galit\u00e9 des genres et les droits humains. Ses origines remontent \u00e0 1910, avec les premi\u00e8res conf\u00e9rences socialistes, et explosent en 1908 par la gr\u00e8ve massive de 15 000 ouvri\u00e8res new-yorkaises exigeant salaires \u00e9gaux et droit de vote.\n\nAujourd'hui, c'est un cri global contre les discriminations persistantes, particuli\u00e8rement en Ha\u00efti o\u00f9 les femmes portent l'\u00e9conomie informelle. C\u00e9l\u00e9brons ce jour comme un rappel quotidien de r\u00e9silience.",
+            "layout": "right",
+            "imagePath": "\/assets\/user_3\/8mars\/images\/1771878062-iphone-12-emojis.gif",
+            "bgColor": "#ffffff",
+            "textColor": "#000000",
+            "titleSize": "2.5rem",
+            "contentSize": "1.2rem",
+            "titleAlign": "flex-start",
+            "contentAlign": "left",
+            "duration": "50000"
+        },
+        {
+            "title": "Histoire en bref",
+            "content": "Tout commence en 1908 : 15 000 ouvri\u00e8res textiles \u00e0 New York descendent dans la rue pour d\u00e9noncer salaires mis\u00e9rables, journ\u00e9es de 14h et conditions inhumaines \u2013 un soul\u00e8vement qui inspire le monde. En 1910, Clara Zetkin propose une journ\u00e9e d\u00e9di\u00e9e aux femmes au congr\u00e8s socialiste.\n\n1975 marque l'officialisation ONU, co\u00efncidant avec l'Ann\u00e9e des femmes. En Ha\u00efti, cela r\u00e9sonne avec nos luttes post-ind\u00e9pendance, o\u00f9 figures comme Catherine Flon symbolisent la nation. Cette histoire nous unit dans la victoire collective.",
+            "layout": "left",
+            "imagePath": "\/assets\/user_3\/8mars\/images\/1771624062-pexels-leeloothefirst-6495873.jpg",
+            "bgColor": "#ffffff",
+            "textColor": "#000000",
+            "titleSize": "2.5rem",
+            "contentSize": "1.2rem",
+            "titleAlign": "flex-start",
+            "contentAlign": "left",
+            "duration": "50000"
+        },
+        {
+            "title": "Eleanor Roosevelt",
+            "content": "\u00ab L'\u00e9galit\u00e9 des droits de la femme n'est pas une faveur, c'est une \u00e9vidence. \u00bb \u2013 Eleanor Roosevelt, ic\u00f4ne des droits humains.\n\nCette phrase percutante rappelle que l'\u00e9galit\u00e9 n'est pas un don g\u00e9n\u00e9reux des hommes ou des institutions, mais un droit fondamental, inscrit dans la nature humaine. Dans un monde o\u00f9 les \u00e9carts salariaux persistent (femmes gagnent 23% de moins globalement), elle nous exhorte \u00e0 exiger justice sans compromis.\n\nEn Ha\u00efti, o\u00f9 les femmes dirigent 70% des foyers ruraux, cette \u00e9vidence devient urgence vitale.",
+            "layout": "right",
+            "imagePath": null,
+            "bgColor": "#ffffff",
+            "textColor": "#000000",
+            "titleSize": "2.5rem",
+            "contentSize": "1.2rem",
+            "titleAlign": "flex-start",
+            "contentAlign": "left",
+            "duration": "50000"
+        },
+        {
+            "title": "Proverbe Africain",
+            "content": "\u00ab La force d'une femme est invisible mais puissante. \u00bb \u2013 Proverbe africain, \u00e9cho parfait \u00e0 notre r\u00e9silience ha\u00eftienne.\n\nCette sagesse ancestrale r\u00e9v\u00e8le la puissance cach\u00e9e des femmes : comme les racines d'un manguier qui soutiennent l'arbre entier, leur endurance invisible nourrit familles, communaut\u00e9s et nations. Test\u00e9e par les \u00e9preuves \u2013 ouragans, crises \u2013 elle explose en moments critiques.\n\n\u00ab Une femme est comme un sachet de th\u00e9 : vous ne savez sa force qu'en l plongeant dans l'eau chaude. \u00bb Appliquons cela au 8 mars !",
+            "layout": "left",
+            "imagePath": null,
+            "bgColor": "#ffffff",
+            "textColor": "#000000",
+            "titleSize": "2.5rem",
+            "contentSize": "1.2rem",
+            "titleAlign": "flex-start",
+            "contentAlign": "left",
+            "duration": "50000"
+        },
+        {
+            "title": "Autre Pens\u00e9e",
+            "content": "\u00ab Les femmes portent en elles la force de b\u00e2tir, de transformer et d'inspirer. \u00bb \u2013 Pens\u00e9e sur force et r\u00e9silience.\n\u200b\n\nDe la reconstruction post-s\u00e9isme en Ha\u00efti aux avanc\u00e9es mondiales, les femmes transforment chaos en progr\u00e8s. Elles \u00e9duquent, innovent, gu\u00e9rissent \u2013 une force b\u00e2tisseuse qui \u00e9l\u00e8ve soci\u00e9t\u00e9s enti\u00e8res.\n\nReconnaissons leurs succ\u00e8s : +20% parit\u00e9 salariale en 10 ans, records leaders 2025. Mais brisons les barri\u00e8res restantes pour un impact total.",
+            "layout": "right",
+            "imagePath": "\/assets\/user_3\/8mars\/images\/1771855947-pexels-storiesofdesign-14787268.jpg",
+            "bgColor": "#ffffff",
+            "textColor": "#000000",
+            "titleSize": "2.5rem",
+            "contentSize": "1.2rem",
+            "titleAlign": "flex-start",
+            "contentAlign": "left",
+            "duration": "50000"
+        },
+        {
+            "title": "Progr\u00e8s actuels",
+            "content": "Grands pas : parit\u00e9 salariale mondiale +20% ces 10 ans, malgr\u00e9 gaps persistants. En 2025, record historique de femmes pr\u00e9sidentes et CEO (ex. Ha\u00efti progresse en politique locale).\n\n\u00c9ducation des filles explose : 90% scolaris\u00e9es en primaire globalement. En Ha\u00efti, initiatives comme celles de l'UNICEF boostent l'acc\u00e8s, formant futures leaders. Ces victoires prouvent : pers\u00e9v\u00e9rance gagne.\n\nPourtant, acc\u00e9l\u00e9rons pour 2030 ONU : \u00e9galit\u00e9 totale.",
+            "layout": "left",
+            "imagePath": null,
+            "bgColor": "#ffffff",
+            "textColor": "#000000",
+            "titleSize": "2.5rem",
+            "contentSize": "1.2rem",
+            "titleAlign": "flex-start",
+            "contentAlign": "left",
+            "duration": "50000"
+        },
+        {
+            "title": "D\u00e9fis \u00e0 relever",
+            "content": "Violences : 1 femme sur 3 subit agressions physiques\/sexuelles dans sa vie \u2013 urgence en Ha\u00efti avec crises s\u00e9curitaires. \u00c9ducation : 130 millions filles exclues mondialement, aggrav\u00e9 par pauvret\u00e9.\n\n\u00c9carts salariaux (77 cents pour 1 dollar homme) et charge mentale freinent. \u00ab C\u00e9l\u00e9brons les r\u00e9ussites des femmes et engageons-nous \u00e0 briser les barri\u00e8res qui subsistent. \u00bb\n\u200b\n\nSolutions : lois strictes, \u00e9ducation inclusive, soutien \u00e9conomique. Agissons !",
+            "layout": "right",
+            "imagePath": null,
+            "bgColor": "#ffffff",
+            "textColor": "#000000",
+            "titleSize": "2.5rem",
+            "contentSize": "1.2rem",
+            "titleAlign": "flex-start",
+            "contentAlign": "left",
+            "duration": "50000"
+        },
+        {
+            "title": "Appel \u00e0 l'action",
+            "content": "Soutenez concr\u00e8tement : signez p\u00e9titions ONU Femmes, formez dans vos communaut\u00e9s, boostez entreprises dirig\u00e9es par femmes. En Ha\u00efti, rejoignez r\u00e9seaux comme Fanm Ayisyen Pou Ranf\u00f2sman.\n\nPartagez #8Mars #ForceInvisible sur r\u00e9seaux. Chaque like, don, parole compte pour amplifier. \u00ab L'\u00e9galit\u00e9 n'est pas faveur, \u00e9vidence ! \u00bb Ensemble, transformons paroles en actes puissants.",
+            "layout": "right",
+            "imagePath": null,
+            "bgColor": "#ffffff",
+            "textColor": "#000000",
+            "titleSize": "2.5rem",
+            "contentSize": "1.2rem",
+            "titleAlign": "flex-start",
+            "contentAlign": "left",
+            "duration": "50000"
+        },
+        {
+            "title": "Remerciements",
+            "content": "Grand merci pour votre pr\u00e9sence engag\u00e9e dans cette c\u00e9l\u00e9bration du 8 mars ! Vous avez explor\u00e9 histoire, citations inspirantes comme celles d'Eleanor Roosevelt et proverbes africains, progr\u00e8s et d\u00e9fis.\n\nLa boucle repart : que cette \u00e9nergie persiste au quotidien. Questions ? \u00c9changes ? Contactez-moi pour plus. Femmes puissantes, monde uni !",
+            "layout": "left",
+            "imagePath": null,
+            "bgColor": "#ffffff",
+            "textColor": "#000000",
+            "titleSize": "4.5rem",
+            "contentSize": "1.5rem",
+            "titleAlign": "center",
+            "contentAlign": "left",
+            "duration": "50000"
+        }
+    ]
+}

@@ -7,7 +7,7 @@
     <title>Presentation Studio - Diffusion</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alegreya&family=Bebas+Neue&family=Bitter&family=Cardo&family=Caveat&family=Comfortaa&family=Crimson+Text&family=Dancing+Script&family=EB+Garamond&family=Fira+Sans&family=Inconsolata&family=Karla&family=Libre+Baskerville&family=Lora&family=Lato&family=Merriweather&family=Montserrat&family=Noto+Sans&family=Nunito&family=Open+Sans&family=Oswald&family=Pacifico&family=Playfair+Display&family=Poppins&family=PT+Sans&family=Quicksand&family=Raleway&family=Rubik&family=Source+Sans+Pro&family=Ubuntu&family=Work+Sans&family=Roboto&display=swap" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <style>
@@ -203,7 +203,10 @@
                     dataConfig = allProjects[0].data;
                     startPresentationFlow(true);
                 } else {
+                    console.log('Loading project:', projectParam);
                     const data = await $.getJSON('/api/project/' + encodeURIComponent(projectParam));
+                    console.log('API Response:', data);
+                    console.log('Font Family from API:', data.settings.fontFamily);
                     dataConfig = data;
                     startPresentationFlow(false);
                 }
@@ -313,6 +316,9 @@
         function buildSlider() {
             if (!dataConfig || !dataConfig.slides) return;
 
+            console.log('buildSlider - settings:', dataConfig.settings);
+            console.log('buildSlider - fontFamily:', dataConfig.settings.fontFamily);
+
             const slides = dataConfig.slides;
             $dom.slidesContainer.empty();
 
@@ -336,6 +342,7 @@
                 const contentAlign = slideData.contentAlign || 'left';
                 const titleSize = slideData.titleSize || '2.5rem';
                 const contentSize = slideData.contentSize || '1.2rem';
+                const fontFamily = dataConfig.settings.fontFamily || "'Montserrat', sans-serif";
 
                 $textCol.css({
                     backgroundColor: bgColor,
@@ -351,8 +358,8 @@
 
                 const paragraphs = slideData.content.split('\n').map(paragraph => `<p style="margin-bottom:1rem;">${paragraph}</p>`).join('');
                 $textCol.html(`
-                    <h1 class="slide-title" style="font-weight:800; margin-bottom:1.5rem; color:${textColor}; font-size:${titleSize}">${slideData.title}</h1>
-                    <div class="slide-desc" style="font-weight:400; color:${textColor}; max-width:800px; line-height:1.8; text-align:${contentAlign}; font-size:${contentSize}">
+                    <h1 class="slide-title" style="font-weight:800; margin-bottom:1.5rem; color:${textColor}; font-size:${titleSize}; font-family:${fontFamily}">${slideData.title}</h1>
+                    <div class="slide-desc" style="font-weight:400; color:${textColor}; max-width:800px; line-height:1.8; text-align:${contentAlign}; font-size:${contentSize}; font-family:${fontFamily}">
                         ${paragraphs}
                     </div>
                 `);
@@ -365,7 +372,7 @@
                         width: '50%',
                         height: '100%',
                         display: 'block',
-                        backgroundColor: '#000'
+                        backgroundColor: bgColor
                     });
 
                     let imgPath = slideData.imagePath;

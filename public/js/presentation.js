@@ -31,7 +31,11 @@ $(document).ready(async function () {
         } else if (!projectParam) {
             throw new Error("Paramètre 'project' manquant.");
         } else {
+            console.log('Loading project:', projectParam);
             const data = await $.getJSON(`/api/project/${projectParam}`);
+            console.log('API Response:', data);
+            console.log('Settings:', data.settings);
+            console.log('Font Family:', data.settings.fontFamily);
             dataConfig = data;
             startPresentationFlow(false);
         }
@@ -48,6 +52,31 @@ $(document).ready(async function () {
                 <a href="/editor" class="btn btn-primary">Retour à l'éditeur</a>
             </div>
         `);
+    }
+});
+
+$(document).on('keydown', function (e) {
+    if (!carouselInstance) return;
+    
+    const totalSlides = $dom.slidesContainer.children().length;
+    const currentIndex = $dom.slidesContainer.children().index($dom.slidesContainer.find('.carousel-item.active'));
+    
+    if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        if (slideTimer) clearTimeout(slideTimer);
+        carouselInstance.prev();
+        setTimeout(() => {
+            const newIndex = $dom.slidesContainer.children().index($dom.slidesContainer.find('.carousel-item.active'));
+            resetTimer(newIndex);
+        }, 50);
+    } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        if (slideTimer) clearTimeout(slideTimer);
+        carouselInstance.next();
+        setTimeout(() => {
+            const newIndex = $dom.slidesContainer.children().index($dom.slidesContainer.find('.carousel-item.active'));
+            resetTimer(newIndex);
+        }, 50);
     }
 });
 
@@ -162,6 +191,9 @@ function handleProjectTransition() {
 function buildSlider() {
     if (!dataConfig || !dataConfig.slides) return;
 
+    console.log('buildSlider - dataConfig.settings:', dataConfig.settings);
+    console.log('buildSlider - fontFamily:', dataConfig.settings.fontFamily);
+
     const slides = dataConfig.slides;
     $dom.slidesContainer.empty();
     $dom.indicatorsContainer.empty();
@@ -188,6 +220,8 @@ function buildSlider() {
         const contentAlign = slideData.contentAlign || 'left';
         const titleSize = slideData.titleSize || '2.5rem';
         const contentSize = slideData.contentSize || '1.2rem';
+        const fontFamily = dataConfig.settings.fontFamily || "'Montserrat', sans-serif";
+        console.log('Font family:', fontFamily);
 
         $textCol.css({
             backgroundColor: bgColor,
@@ -203,8 +237,8 @@ function buildSlider() {
 
         const paragraphs = slideData.content.split('\n').map(paragraph => `<p style="margin-bottom:1rem;">${paragraph}</p>`).join('');
         $textCol.html(`
-            <h1 class="slide-title" style="font-weight:800; margin-bottom:1.5rem; color:${textColor}; font-size:${titleSize}">${slideData.title}</h1>
-            <div class="slide-desc" style="font-weight:400; color:${textColor}; max-width:800px; line-height:1.8; text-align:${contentAlign}; font-size:${contentSize}">
+            <h1 class="slide-title" style="font-weight:800; margin-bottom:1.5rem; color:${textColor}; font-size:${titleSize}; font-family:${fontFamily}">${slideData.title}</h1>
+            <div class="slide-desc" style="font-weight:400; color:${textColor}; max-width:800px; line-height:1.8; text-align:${contentAlign}; font-size:${contentSize}; font-family:${fontFamily}">
                 ${paragraphs}
             </div>
         `);
@@ -217,7 +251,7 @@ function buildSlider() {
                 width: '50%',
                 height: '100%',
                 display: 'block',
-                backgroundColor: '#000'
+                backgroundColor: bgColor
             });
 
             let imgPath = slideData.imagePath;

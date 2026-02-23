@@ -5,8 +5,26 @@
 @section('styles')
 <style>
     :root { --primary: #0d6efd; --dark: #212529; }
-    .editor-panel { height: calc(100vh - 80px); overflow-y: auto; background: #f8f9fa; border-right: 1px solid #dee2e6; display: flex; flex-direction: column; min-width: 200px; max-width: 500px; }
-    .preview-panel { height: calc(100vh - 80px); background: #000; position: relative; display: flex; flex-direction: column; overflow: hidden; flex: 1; min-width: 0; }
+    .editor-panel { 
+        height: calc(100vh - 80px); 
+        overflow-y: auto; 
+        overflow-x: hidden;
+        background: #f8f9fa; 
+        border-right: 1px solid #dee2e6; 
+        display: flex; 
+        flex-direction: column; 
+        min-width: 0; 
+    }
+    .preview-panel { 
+        height: calc(100vh - 80px); 
+        background: #000; 
+        position: relative; 
+        display: flex; 
+        flex-direction: column; 
+        overflow: hidden; 
+        flex: 1; 
+        min-width: 0; 
+    }
     .panel-resizer {
         width: 8px;
         background: #dee2e6;
@@ -17,7 +35,6 @@
     .panel-resizer:hover, .panel-resizer.dragging {
         background: #0d6efd;
     }
-    .editor-panel { height: calc(100vh - 80px); overflow-y: auto; background: #f8f9fa; border-right: 1px solid #dee2e6; display: flex; flex-direction: column; min-width: 0; }
     #preview-container { flex: 1; overflow: hidden; flex-grow: 1; background: #fff; position: relative; }
     .slide-item { cursor: pointer; border-left: 4px solid transparent; transition: all 0.2s; padding: 10px; }
     .slide-item:hover { background: #e9ecef; border-left-color: var(--primary); }
@@ -27,15 +44,16 @@
     .slide-item:hover .btn-float-del { opacity: 1; }
     .row.h-100 { display: flex; flex-wrap: nowrap; margin: 0; width: 100%; }
     .resizer { width: 6px; background: #dee2e6; cursor: col-resize; flex-shrink: 0; }
-    .editor-header { background: #1a1a1a; padding: 10px 20px; display: flex; align-items: center; gap: 15px; }
+    .editor-header { background: #1a1a1a; padding: 10px 20px; display: flex; align-items: center; gap: 15px; flex-shrink: 0; }
     .editor-header select, .editor-header input { background: #333; border: 1px solid #555; color: white; padding: 6px 12px; border-radius: 4px; }
-    .custom-accordion-item { border-bottom: 1px solid #dee2e6; }
+    .custom-accordion-item { border-bottom: 1px solid #dee2e6; flex-shrink: 0; }
     .custom-accordion-button { width: 100%; padding: 15px 20px; background: #f8f9fa; border: none; text-align: left; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-weight: 600; font-size: 14px; color: #333; }
     .custom-accordion-button:hover { background: #e9ecef; }
     .custom-accordion-button i.chevron { transition: transform 0.3s; }
     .custom-accordion-button.active i.chevron { transform: rotate(180deg); }
     .custom-accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-    .custom-accordion-content.open { max-height: 500px; }
+    .custom-accordion-content.open { max-height: 500px; overflow-y: auto; }
+    #slidesList { overflow-y: auto; flex: 1; min-height: 0; }
     @media (max-width: 768px) {
         .editor-panel { width: 100% !important; max-width: 100%; min-width: 100%; border-right: none; }
         .preview-panel { display: none; }
@@ -95,7 +113,7 @@
         </div>
     </div>
 
-    <div class="main-content" id="mainContent" style="display: flex; flex-direction: column; width: 100%;">
+    <div class="main-content" id="mainContent" style="display: flex; flex-direction: column; width: 100%; overflow: hidden;">
         <div class="editor-header">
             <h5 class="text-white mb-0" id="projectTitle">{{ $project ?? 'Nouveau Projet' }}</h5>
             <div style="flex: 1;"></div>
@@ -121,6 +139,44 @@
                             <div class="mb-3">
                                 <label class="form-label">Durée par défaut (ms)</label>
                                 <input type="number" class="form-control form-control-sm" id="defaultDuration" value="50000">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Police d'écriture</label>
+                                <select class="form-select form-select-sm" id="fontFamily">
+                                    <option value="'Montserrat', sans-serif">Montserrat</option>
+                                    <option value="'Roboto', sans-serif">Roboto</option>
+                                    <option value="'Open Sans', sans-serif">Open Sans</option>
+                                    <option value="'Lato', sans-serif">Lato</option>
+                                    <option value="'Poppins', sans-serif">Poppins</option>
+                                    <option value="'Raleway', sans-serif">Raleway</option>
+                                    <option value="'Merriweather', serif">Merriweather</option>
+                                    <option value="'Playfair Display', serif">Playfair Display</option>
+                                    <option value="'Nunito', sans-serif">Nunito</option>
+                                    <option value="'Ubuntu', sans-serif">Ubuntu</option>
+                                    <option value="'Oswald', sans-serif">Oswald</option>
+                                    <option value="'Source Sans Pro', sans-serif">Source Sans Pro</option>
+                                    <option value="'PT Sans', sans-serif">PT Sans</option>
+                                    <option value="'Noto Sans', sans-serif">Noto Sans</option>
+                                    <option value="'Work Sans', sans-serif">Work Sans</option>
+                                    <option value="'Quicksand', sans-serif">Quicksand</option>
+                                    <option value="'Rubik', sans-serif">Rubik</option>
+                                    <option value="'Karla', sans-serif">Karla</option>
+                                    <option value="'Libre Baskerville', serif">Libre Baskerville</option>
+                                    <option value="'Bitter', serif">Bitter</option>
+                                    <option value="'Crimson Text', serif">Crimson Text</option>
+                                    <option value="'Lora', serif">Lora</option>
+                                    <option value="'Cardo', serif">Cardo</option>
+                                    <option value="'EB Garamond', serif">EB Garamond</option>
+                                    <option value="'Alegreya', serif">Alegreya</option>
+                                    <option value="'Fira Sans', sans-serif">Fira Sans</option>
+                                    <option value="'Inconsolata', monospace">Inconsolata</option>
+                                    <option value="'Bebas Neue', cursive">Bebas Neue</option>
+                                    <option value="'Abril Fatface', cursive">Abril Fatface</option>
+                                    <option value="'Dancing Script', cursive">Dancing Script</option>
+                                    <option value="'Pacifico', cursive">Pacifico</option>
+                                    <option value="'Caveat', cursive">Caveat</option>
+                                    <option value="'Comfortaa', cursive">Comfortaa</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -156,8 +212,8 @@
                         </button>
                     </div>
                 </div>
-                <div class="bottom-slides-bar" id="bottomSlidesBar">
-                    <div id="bottomSlidesList" class="d-flex"></div>
+                <div class="bottom-slides-bar" id="bottomSlidesBar" style="overflow-x: auto; overflow-y: hidden;">
+                    <div id="bottomSlidesList" class="d-flex" style="min-width: min-content;"></div>
                 </div>
             </div>
         </div>
@@ -267,7 +323,7 @@
 
 @section('scripts')
 <script>
-let currentProject = { settings: { musicPath: "", defaultDuration: 50000 }, slides: [] };
+let currentProject = { settings: { musicPath: "", defaultDuration: 50000, fontFamily: "'Montserrat', sans-serif" }, slides: [] };
 let currentProjectName = null;
 let editModal;
 let slideToDelete = null;
@@ -315,7 +371,7 @@ $(document).ready(function() {
     if (currentProjectName) {
         loadProject(currentProjectName);
     } else {
-        currentProject = { settings: { musicPath: "", defaultDuration: 50000 }, slides: [] };
+        currentProject = { settings: { musicPath: "", defaultDuration: 50000, fontFamily: "'Montserrat', sans-serif" }, slides: [] };
         renderSlideList();
         renderPreview();
     }
@@ -371,6 +427,13 @@ $(document).ready(function() {
             console.log('No file selected');
         }
     });
+
+    $('#fontFamily').on('change', function() {
+        if (!currentProjectName) return;
+        currentProject.settings.fontFamily = $('#fontFamily').val();
+        renderPreview();
+        saveProjectToServer();
+    });
 });
 
 // Panel Resizer
@@ -419,6 +482,7 @@ async function loadProject(name) {
         currentProjectName = name;
         $('#defaultDuration').val(data.settings.defaultDuration);
         $('#musicFileName').text(data.settings.musicPath ? data.settings.musicPath.split('/').pop() : "Par défaut");
+        $('#fontFamily').val(data.settings.fontFamily || "'Montserrat', sans-serif");
         renderSlideList();
         renderPreview();
     } catch (e) { 
@@ -426,7 +490,7 @@ async function loadProject(name) {
         console.error('Status:', e.status);
         console.error('Response:', e.responseText);
         alert('Erreur chargement: ' + e.status + ' - ' + e.responseText);
-        currentProject = { settings: { musicPath: "", defaultDuration: 50000 }, slides: [] };
+        currentProject = { settings: { musicPath: "", defaultDuration: 50000, fontFamily: "'Montserrat', sans-serif" }, slides: [] };
         renderSlideList();
         renderPreview();
     }
@@ -435,6 +499,7 @@ async function loadProject(name) {
 async function saveProjectToServer() {
     if (!currentProjectName) { alert('Aucun projet sélectionné'); return; }
     currentProject.settings.defaultDuration = $('#defaultDuration').val();
+    currentProject.settings.fontFamily = $('#fontFamily').val();
     console.log('Saving project:', currentProjectName, 'with', currentProject.slides.length, 'slides');
     try {
         const res = await $.ajax({
@@ -558,11 +623,13 @@ function renderPreview() {
     $inner.empty();
     $bottom.empty();
 
+    const fontFamily = currentProject.settings.fontFamily || "'Montserrat', sans-serif";
+
     currentProject.slides.forEach((slide, i) => {
         const $item = $('<div class="carousel-item h-100 ' + (i === 0 ? 'active' : '') + '"></div>');
         const $wrap = $('<div class="d-flex w-100 h-100"></div>');
-        const paragraphs = (slide.content || '').split('\n').filter(p => p.trim() !== '').map(p => '<p style="margin-bottom:1rem; font-size:' + slide.contentSize + '; line-height:1.6;">' + p + '</p>').join('');
-        const $text = $('<div class="p-5 flex-grow-1 d-flex flex-column justify-content-center" style="background:' + slide.bgColor + '; color:' + slide.textColor + '; text-align:' + slide.contentAlign + '; align-items:' + slide.titleAlign + '; width:' + ((slide.layout !== 'none' && slide.imagePath) ? '50%' : '100%') + ';"><h1 style="font-size:' + slide.titleSize + '; font-weight:800; margin-bottom:1.5rem;">' + slide.title + '</h1><div style="width:100%">' + paragraphs + '</div></div>');
+        const paragraphs = (slide.content || '').split('\n').filter(p => p.trim() !== '').map(p => '<p style="margin-bottom:1rem; font-size:' + slide.contentSize + '; line-height:1.6; font-family:' + fontFamily + ';">' + p + '</p>').join('');
+        const $text = $('<div class="p-5 flex-grow-1 d-flex flex-column justify-content-center" style="background:' + slide.bgColor + '; color:' + slide.textColor + '; text-align:' + slide.contentAlign + '; align-items:' + slide.titleAlign + '; width:' + ((slide.layout !== 'none' && slide.imagePath) ? '50%' : '100%') + ';"><h1 style="font-size:' + slide.titleSize + '; font-weight:800; margin-bottom:1.5rem; font-family:' + fontFamily + ';">' + slide.title + '</h1><div style="width:100%">' + paragraphs + '</div></div>');
 
         let imgPath = slide.imagePath;
         if (imgPath && !imgPath.startsWith('/') && !imgPath.startsWith('http')) { imgPath = '/' + imgPath; }
