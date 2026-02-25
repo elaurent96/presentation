@@ -192,12 +192,20 @@
                     allProjects = projects;
                     dataConfig = allProjects[0].data;
                     startPresentationFlow(true);
-                } else if (!projectParam || projectParam === 'playlist') {
+                } else if (projectParam === 'playlist' || !projectParam) {
                     // Playlist mode - get projects from playlist.json
                     playlistMode = true;
                     const projects = await $.getJSON('/api/playlist');
                     if (projects.length === 0) {
-                        throw new Error("Aucun projet dans la playlist.");
+                        // Fallback to all projects if playlist is empty
+                        const allProjects = await $.getJSON('/api/all');
+                        if (allProjects.length === 0) {
+                            throw new Error("Aucun projet trouvé.");
+                        }
+                        allProjects = allProjects;
+                        dataConfig = allProjects[0].data;
+                        startPresentationFlow(true);
+                        return;
                     }
                     allProjects = projects;
                     dataConfig = allProjects[0].data;

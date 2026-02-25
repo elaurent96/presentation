@@ -44,7 +44,7 @@ class ProjectController extends Controller
     {
         $user = Auth::user();
         
-        if ($user->isAdmin()) {
+        if (!$user || ($user && $user->isAdmin())) {
             $projectsData = [];
             if (File::exists($this->assetsPath)) {
                 foreach (File::directories($this->assetsPath) as $userFolder) {
@@ -86,7 +86,7 @@ class ProjectController extends Controller
         
         $projectsData = [];
         
-        if ($user->isAdmin()) {
+        if (!$user || ($user && $user->isAdmin())) {
             if (File::exists($this->assetsPath)) {
                 foreach ($playlist as $item) {
                     $userId = $item['user_id'];
@@ -130,25 +130,23 @@ class ProjectController extends Controller
     {
         $user = Auth::user();
         
-        if (!$user) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        $filePath = null;
+        
+        if ($user && !$user->isAdmin()) {
+            $filePath = $this->assetsPath . '/user_' . $user->id . '/' . $name . '/data.json';
         }
         
-        $filePath = $this->assetsPath . '/user_' . $user->id . '/' . $name . '/data.json';
-        
-        if ($user->isAdmin()) {
-            if (File::exists($this->assetsPath)) {
-                foreach (File::directories($this->assetsPath) as $userFolder) {
-                    $testPath = $userFolder . '/' . $name . '/data.json';
-                    if (File::exists($testPath)) {
-                        $filePath = $testPath;
-                        break;
-                    }
+        if (!$filePath && File::exists($this->assetsPath)) {
+            foreach (File::directories($this->assetsPath) as $userFolder) {
+                $testPath = $userFolder . '/' . $name . '/data.json';
+                if (File::exists($testPath)) {
+                    $filePath = $testPath;
+                    break;
                 }
             }
         }
         
-        if (!File::exists($filePath)) {
+        if (!$filePath || !File::exists($filePath)) {
             return response()->json(['error' => 'Project not found'], 404);
         }
         

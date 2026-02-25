@@ -24,7 +24,7 @@ return [
         'save' => true,
     ],
     'constants' => [
-        'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'http://localhost:8000'),
+        'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', config('app.url')),
     ],
     'scan' => [
         'enabled' => true,
