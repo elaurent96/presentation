@@ -21,7 +21,13 @@
                 presets: [
                     SwaggerUIBundle.presets.apis
                 ],
-                persistAuthorization: true
+                persistAuthorization: true,
+                servers: [
+                    {
+                        url: window.location.origin,
+                        description: 'Current server'
+                    }
+                ]
             });
             
             window.ui = ui;
